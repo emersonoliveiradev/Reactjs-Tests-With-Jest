@@ -1,50 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector }  from 'react-redux'
+import React, { useState, useEffect } from "react";
 
-import { addTech } from '../../store/modules/techs/actions'
+import { useSelector, useDispatch } from "react-redux";
+
+import { addTech } from "../../store/modules/techs/actions";
+
+// import { Container } from './styles';
 
 export default function TechList() {
-  /*const [techs, setTechs] = useState([])*/
-  const [newTech, setNewTech] = useState('')
+  const [newTech, setNewTech] = useState("");
+  //const [techs, setTechs] = useState([]);
 
-  const dispatch = useDispatch()
-  const techs = useSelector(state => state.techs)
+  const dispatch = useDispatch();
+  const techs = useSelector(state => state.techs);
 
-  /*useEffect(() => {
-    const techs = localStorage.getItem('techs')
-    
+  /** 
+  useEffect(() => {
+    const techs = localStorage.getItem("techs");
     if (techs) {
-      setTechs(JSON.parse(techs))
+      setTechs(JSON.parse(techs));n
     }
-  }, [])
-  
-  useEffect(() => {    
-    localStorage.setItem('techs', JSON.stringify(techs))    
-  }, [techs])*/
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("techs", JSON.stringify(techs));
+  }, [techs]);
+  **/
 
   function handleAddTech() {
-    /*setTechs([...techs, newTech])*/
-    /*dispatch({type: 'ADD_TECH', payload: { tech: newTech } })*/
-    dispatch(addTech(newTech))
-    setNewTech('')
+    dispatch(addTech(newTech));
+    setNewTech("");
   }
 
-  return (    
-    <form data-testid="tech-form" onSubmit={handleAddTech}>
-      <ul data-testid="tech-list">
-        { techs.map(tech => 
-            <li key={tech}>
-              {tech}
-            </li>
-          ) 
-        }
-      </ul>    
-      
-      <label htmlFor="tech">Tech</label>
-      <input id="tech" value={newTech} onChange={e => setNewTech(e.target.value)} />
+  return (
+    <div>
+      <form data-testid="tech-form" onSubmit={handleAddTech}>
+        <ul data-testid="tech-list">
+          {techs.map(tech => (
+            <li key={tech}>{tech}</li>
+          ))}
+        </ul>
 
-      <button onClick={handleAddTech}>Adicionar</button>    
-    </form>
+        <label htmlFor="tech">Tech</label>
+
+        <input
+          id="tech"
+          value={newTech}
+          onChange={e => setNewTech(e.target.value)}
+        />
+
+        <button onClick={handleAddTech}>Adicionar</button>
+      </form>
+    </div>
   );
 }
-

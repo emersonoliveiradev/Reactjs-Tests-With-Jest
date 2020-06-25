@@ -7,6 +7,8 @@ import { getTechs } from '~/store/modules/techs/saga'
 
 const apiMock = new MockAdapter(api)
 
+
+
 describe('Techs saga', () => {
   it('Ser possível fazer o fetch das tecnologias', async () => {
     const dispatch = jest.fn();
@@ -17,7 +19,7 @@ describe('Techs saga', () => {
     expect(dispatch).toHaveBeenCalledWith(getTechsSuccess(['Node.js']));
   }) 
 
-  it('Deve retornar uma falha', async () => {
+  it('DEve retornar uma falha', async () => {
     const dispatch = jest.fn()  
 
     apiMock.onGet('techs').reply(500)
