@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector }  from 'react-redux'
+
+import { addTech } from '../../store/modules/techs/actions'
 
 export default function TechList() {
-  const [techs, setTechs] = useState([])
+  /*const [techs, setTechs] = useState([])*/
   const [newTech, setNewTech] = useState('')
 
-  useEffect(() => {
+  const dispatch = useDispatch()
+  const techs = useSelector(state => state.techs)
+
+  /*useEffect(() => {
     const techs = localStorage.getItem('techs')
     
     if (techs) {
@@ -14,10 +20,12 @@ export default function TechList() {
   
   useEffect(() => {    
     localStorage.setItem('techs', JSON.stringify(techs))    
-  }, [techs])
+  }, [techs])*/
 
   function handleAddTech() {
-    setTechs([...techs, newTech])
+    /*setTechs([...techs, newTech])*/
+    /*dispatch({type: 'ADD_TECH', payload: { tech: newTech } })*/
+    dispatch(addTech(newTech))
     setNewTech('')
   }
 

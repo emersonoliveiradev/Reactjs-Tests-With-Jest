@@ -1,7 +1,12 @@
 import React from 'react'
 import { render, fireEvent, cleanup } from '@testing-library/react'
+import { useDispatch, useSelector } from 'react-redux'
 import TechList from '~/components/TechList'
-export * from '@testing-library/react'
+/*export * from '@testing-library/react'*/
+
+import { addTech } from '~/store/modules/techs/actions'
+
+jest.mock("react-redux");
 
 describe('TechList component', () => {
 
@@ -30,5 +35,39 @@ describe('TechList component', () => {
       JSON.stringify(["Node.js"])
     );
     expect(getByTestId("tech-list")).toContainElement(getByText("Node.js"));
-  });*/
+  }); */
+
+
+
+  it('Se dado o estado do redux, estão sendo renderizados na lista', () => {
+    useSelector.mockImplementation(cb => cb({
+      techs: ['Node.js', 'React.js']
+    }))
+
+    const { getByTestId, getByText } = render(<TechList />)
+    
+    expect(getByTestId('tech-list')).toContainElement(getByText('Node.js'))
+    expect(getByTestId('tech-list')).toContainElement(getByText('React.js'))
+  })
+
+  it('Se o usuário consegue adicionar novas tecnologias - diparando a dispatch..', () => {
+    const { getByTestId, getByLabelText } = render(<TechList />)
+
+    const dispatch = jest.fn()
+    useDispatch.mockReturnValue(dispatch)
+
+    fireEvent.change(getByLabelText('Tech'), {target: {value: 'Node.js'}})
+    fireEvent.submit(getByTestId('tech-form'))
+
+    console.log(dispatch.mock.calls)
+    
+    expect(dispatch).toHaveBeenCalled()
+    /*expect(dispatch).toHaveBeenCalledWith({
+      type: 'ADD_TECH',
+      payload: { tech: 'Node.js'}
+    })*/
+
+    expect(dispatch).toHaveBeenCalledWith(addTech('Node.js'))
+    
+  })
 });
